@@ -1,10 +1,20 @@
 <?php
-
+// app/Models/Statistic.php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Statistic extends Model
 {
-    protected $fillable = ['label', 'value'];
+    use HasFactory;
+
+    protected $fillable = [
+        'label',
+        'value'
+    ];
+
+    protected $casts = [
+        'value' => 'integer'
+    ];
 }

@@ -1,11 +1,19 @@
 <?php
-
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Transparansi extends Model
 {
-    protected $table = 'transparansis'; // sesuai nama tabel
-    protected $fillable = ['jenis', 'jumlah']; // sesuaikan kolom yang ada
+    use HasFactory;
+
+    protected $fillable = [
+        'jenis',
+        'jumlah'
+    ];
+
+    protected $casts = [
+        'jumlah' => 'decimal:2'
+    ];
 }
