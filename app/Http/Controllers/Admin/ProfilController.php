@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -16,30 +17,31 @@ class ProfilController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'konten' => 'required|string'
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
         ]);
 
-        Profil::create($request->all());
+        Profil::create($request->only('title', 'content'));
 
-        return redirect()->back()->with('success', 'Profil berhasil ditambahkan!');
+        return redirect()->route('admin.profils.index')->with('success', 'Profil berhasil ditambahkan');
     }
 
     public function update(Request $request, Profil $profil)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'konten' => 'required|string'
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
         ]);
 
-        $profil->update($request->all());
+        $profil->update($request->only('title', 'content'));
 
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+        return redirect()->route('admin.profils.index')->with('success', 'Profil berhasil diperbarui');
     }
 
     public function destroy(Profil $profil)
     {
         $profil->delete();
-        return redirect()->back()->with('success', 'Profil berhasil dihapus!');
+
+        return redirect()->route('admin.profils.index')->with('success', 'Profil berhasil dihapus');
     }
 }

@@ -7,12 +7,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\BudgetController;
-use App\Http\Controllers\ProfilController;
-use App\Http\Controllers\PemerintahanController;
-use App\Http\Controllers\LayananController;
-use App\Http\Controllers\TransparansiController;
-use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\PotensiController;
+use App\Http\Controllers\Admin\ProfilController;
+use App\Http\Controllers\Admin\PemerintahanController;
+use App\Http\Controllers\Admin\LayananController;
+use App\Http\Controllers\Admin\TransparansiController;
+use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\PotensiController;
+use App\Http\Controllers\VisitController;
+
 
 Route::get('/', function () {
     return redirect()->route('admin.dashboard');
@@ -30,23 +32,27 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('budgets', BudgetController::class);
     
     // Profils
-    Route::resource('profils', ProfilController::class);
+    Route::resource('profils', ProfilController::class)->except(['create', 'edit', 'show']);
     
     // Pemerintahan
-    Route::resource('pemerintahans', PemerintahanController::class);
+    Route::resource('pemerintahans', PemerintahanController::class)->except(['create', 'edit', 'show']);
     
     // Layanan
-    Route::resource('layanans', LayananController::class);
+   Route::resource('layanans', LayananController::class)->except(['create', 'edit', 'show']);
     
     // Transparansi
-    Route::resource('transparansis', TransparansiController::class);
+    Route::resource('transparansis', TransparansiController::class)->except(['create', 'edit', 'show']);
     
     // Berita
-    Route::resource('beritas', BeritaController::class);
+    Route::resource('beritas', BeritaController::class)->except(['create', 'edit', 'show']);
     
     // Potensi
-    Route::resource('potensis', PotensiController::class);
+    Route::resource('potensis', PotensiController::class)->except(['create', 'edit', 'show']);
 });
+
+Route::get('/track-visit', [VisitController::class, 'trackVisit']); 
+Route::get('/admin/visits', [VisitController::class, 'showTodayVisit'])->name('admin.visits');
+
 Route::get('beranda', [App\Http\Controllers\HomeController::class, 'index'])->name('beranda');
 
 Route::get('/profil', [App\Http\Controllers\ProfilController::class, 'index'])->name('profil');

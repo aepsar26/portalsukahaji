@@ -1,16 +1,18 @@
-{{-- resources/views/admin/beritas/index.blade.php --}}
 @extends('admin.layouts.app')
 
-@section('title', 'Berita')
+@section('title', 'Berita Desa')
 
 @section('content')
     <div class="section-header">
-        <h2 class="section-title">Berita</h2>
+        <h2 class="section-title">Berita Desa</h2>
         <button class="btn" onclick="openModal('beritaModal')">
-            <span>+</span>
-            Tambah Berita
+            <span>+</span> Tambah Berita
         </button>
     </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
     <div class="table-container">
         <table class="table">
@@ -18,8 +20,9 @@
                 <tr>
                     <th>ID</th>
                     <th>Judul</th>
-                    <th>Konten</th>
                     <th>Tanggal</th>
+                    <th>Gambar</th>
+                    <th>Konten</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -27,87 +30,98 @@
                 @forelse($beritas as $berita)
                     <tr>
                         <td>{{ $berita->id }}</td>
-                        <td>{{ $berita->judul }}</td>
-                        <td class="truncate">{{ Str::limit($berita->konten, 50) }}</td>
-                        <td>{{ $berita->tanggal->format('d-m-Y') }}</td>
-                        <td class="action-buttons">
-                            <button class="btn btn-sm btn-secondary" onclick="editBerita({{ $berita->id }}, '{{ addslashes($berita->judul) }}', '{{ addslashes($berita->konten) }}', '{{ $berita->tanggal->format('Y-m-d') }}')">
+                        <td>{{ $berita->title }}</td>
+                        <td>{{ $berita->date->format('d-m-Y') }}</td>
+                        <td>
+                            @if($berita->image)
+                                <img src="{{ asset('storage/' . $berita->image) }}" alt="gambar" width="60">
+                            @else
+                                <span style="color:#9ca3af;">-</span>
+                            @endif
+                        </td>
+                        <td style="max-width:250px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            {{ $berita->content }}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary"
+                                onclick="editBerita({{ $berita->id }}, '{{ addslashes($berita->title) }}', '{{ addslashes($berita->content) }}', '{{ $berita->date->format('Y-m-d') }}')">
                                 Edit
                             </button>
-                            <form method="POST" action="{{ route('admin.beritas.destroy', $berita) }}" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
-                                    Hapus
-                                </button>
+                            <form action="{{ route('admin.beritas.destroy', $berita) }}" method="POST" style="display:inline;">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Hapus berita ini?')">Hapus</button>
                             </form>
                         </td>
                     </tr>
                 @empty
-                    <tr>
-                        <td colspan="5" style="text-align: center; padding: 2rem; color: #64748b;">
-                            Belum ada berita
-                        </td>
-                    </tr>
+                    <tr><td colspan="6" style="text-align:center; padding:2rem;">Belum ada berita</td></tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 
-    <!-- Add Modal -->
-    <div class="modal" id="beritaModal">
+    {{-- Modal Tambah --}}
+    <div class="modal" id="beritaModal" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Tambah Berita</h3>
+                <h3>Tambah Berita</h3>
                 <button class="close-btn" onclick="closeModal('beritaModal')">&times;</button>
             </div>
-            <form method="POST" action="{{ route('admin.beritas.store') }}">
+            <form method="POST" action="{{ route('admin.beritas.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label class="form-label">Judul Berita</label>
-                    <input type="text" name="judul" class="form-input" placeholder="Judul berita yang menarik" required>
+                    <label>Judul</label>
+                    <input type="text" name="title" class="form-input" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Konten</label>
-                    <textarea name="konten" class="form-input form-textarea" placeholder="Isi konten berita..." required></textarea>
+                    <label>Tanggal</label>
+                    <input type="date" name="date" class="form-input" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Tanggal</label>
-                    <input type="date" name="tanggal" class="form-input" value="{{ date('Y-m-d') }}" required>
+                    <label>Konten</label>
+                    <textarea name="content" class="form-input" rows="5" required></textarea>
                 </div>
-                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <div class="form-group">
+                    <label>Gambar (opsional)</label>
+                    <input type="file" name="image" class="form-input">
+                </div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('beritaModal')">Batal</button>
-                    <button type="submit" class="btn">Simpan</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Edit Modal -->
-    <div class="modal" id="editBeritaModal">
+    {{-- Modal Edit --}}
+    <div class="modal" id="editBeritaModal" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Edit Berita</h3>
+                <h3>Edit Berita</h3>
                 <button class="close-btn" onclick="closeModal('editBeritaModal')">&times;</button>
             </div>
-            <form method="POST" id="editBeritaForm">
-                @csrf
-                @method('PUT')
+            <form method="POST" id="editBeritaForm" enctype="multipart/form-data">
+                @csrf @method('PUT')
                 <div class="form-group">
-                    <label class="form-label">Judul Berita</label>
-                    <input type="text" name="judul" id="editBeritaJudul" class="form-input" required>
+                    <label>Judul</label>
+                    <input type="text" id="editTitle" name="title" class="form-input" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Konten</label>
-                    <textarea name="konten" id="editBeritaKonten" class="form-input form-textarea" required></textarea>
+                    <label>Tanggal</label>
+                    <input type="date" id="editDate" name="date" class="form-input" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Tanggal</label>
-                    <input type="date" name="tanggal" id="editBeritaTanggal" class="form-input" required>
+                    <label>Konten</label>
+                    <textarea id="editContent" name="content" class="form-input" rows="5" required></textarea>
                 </div>
-                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <div class="form-group">
+                    <label>Gambar (opsional)</label>
+                    <input type="file" name="image" class="form-input">
+                </div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('editBeritaModal')">Batal</button>
-                    <button type="submit" class="btn">Update</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
         </div>
@@ -116,12 +130,20 @@
 
 @push('scripts')
 <script>
-    function editBerita(id, judul, konten, tanggal) {
+    function editBerita(id, title, content, date) {
         document.getElementById('editBeritaForm').action = `/admin/beritas/${id}`;
-        document.getElementById('editBeritaJudul').value = judul;
-        document.getElementById('editBeritaKonten').value = konten;
-        document.getElementById('editBeritaTanggal').value = tanggal;
+        document.getElementById('editTitle').value = title;
+        document.getElementById('editContent').value = content;
+        document.getElementById('editDate').value = date;
         openModal('editBeritaModal');
+    }
+
+    function openModal(id) {
+        document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
     }
 </script>
 @endpush

@@ -30,6 +30,14 @@ function formatNumber(input) {
     input.value = parseInt(value).toLocaleString('id-ID');
 }
 
+function openModal(id) {
+    document.getElementById(id).style.display = 'flex';
+}
+function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+
 // Confirm delete actions
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('btn-danger') && e.target.type === 'submit') {

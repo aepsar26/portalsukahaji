@@ -31,8 +31,8 @@ class StatisticController extends Controller
             'value' => $request->value,
         ]);
 
-        return redirect()->route('statistics.index')
-                         ->with('success', 'Statistik berhasil ditambahkan!');
+       return redirect()->route('admin.statistics.index')->with('success', 'Data berhasil disimpan!');
+
     }
 
     /**
@@ -50,7 +50,7 @@ class StatisticController extends Controller
             'value' => $request->value,
         ]);
 
-        return redirect()->route('statistics.index')
+        return redirect()->route('admin.statistics.index')
                          ->with('success', 'Statistik berhasil diperbarui!');
     }
 
@@ -61,7 +61,7 @@ class StatisticController extends Controller
     {
         $statistic->delete();
 
-        return redirect()->route('statistics.index')
+        return redirect()->route('admin.statistics.index')
                          ->with('success', 'Statistik berhasil dihapus!');
     }
 }

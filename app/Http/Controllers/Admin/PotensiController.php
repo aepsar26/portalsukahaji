@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Potensi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PotensiController extends Controller
 {
@@ -16,30 +18,57 @@ class PotensiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string'
+            'title'       => 'required|string|max:255',
+            'description' => 'required',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        Potensi::create($request->all());
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('potensis', 'public');
+        }
 
-        return redirect()->back()->with('success', 'Potensi berhasil ditambahkan!');
+        Potensi::create([
+            'title'       => $request->title,
+            'description' => $request->description,
+            'image'       => $imagePath,
+        ]);
+
+        return redirect()->route('admin.potensis.index')->with('success', 'Potensi berhasil ditambahkan');
     }
 
     public function update(Request $request, Potensi $potensi)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string'
+            'title'       => 'required|string|max:255',
+            'description' => 'required',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $potensi->update($request->all());
+        $imagePath = $potensi->image;
+        if ($request->hasFile('image')) {
+            if ($potensi->image && Storage::disk('public')->exists($potensi->image)) {
+                Storage::disk('public')->delete($potensi->image);
+            }
+            $imagePath = $request->file('image')->store('potensis', 'public');
+        }
 
-        return redirect()->back()->with('success', 'Potensi berhasil diperbarui!');
+        $potensi->update([
+            'title'       => $request->title,
+            'description' => $request->description,
+            'image'       => $imagePath,
+        ]);
+
+        return redirect()->route('admin.potensis.index')->with('success', 'Potensi berhasil diperbarui');
     }
 
     public function destroy(Potensi $potensi)
     {
+        if ($potensi->image && Storage::disk('public')->exists($potensi->image)) {
+            Storage::disk('public')->delete($potensi->image);
+        }
+
         $potensi->delete();
-        return redirect()->back()->with('success', 'Potensi berhasil dihapus!');
+        return redirect()->route('admin.potensis.index')->with('success', 'Potensi berhasil dihapus');
     }
 }

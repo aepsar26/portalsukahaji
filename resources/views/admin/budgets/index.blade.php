@@ -1,22 +1,15 @@
-{{-- resources/views/admin/statistics/index.blade.php --}}
+{{-- resources/views/admin/budgets/index.blade.php --}}
 @extends('admin.layouts.app')
 
-@section('title', 'Statistik Desa')
+@section('title', 'Anggaran Desa')
 
 @section('content')
     <div class="section-header">
-        <h2 class="section-title">Statistik Desa</h2>
-        <button class="btn" onclick="openModal('statisticModal')">
-            <span>+</span>
-            Tambah Statistik
+        <h2 class="section-title">Anggaran Desa</h2>
+        <button class="btn" onclick="openModal('budgetModal')">
+            <span>+</span> Tambah Anggaran
         </button>
     </div>
-
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <div class="table-container">
         <table class="table">
@@ -24,26 +17,29 @@
                 <tr>
                     <th>ID</th>
                     <th>Label</th>
-                    <th>Nilai</th>
+                    <th>Jumlah (Amount)</th>
                     <th>Dibuat</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($statistics as $statistic)
+                @forelse($budgets as $budget)
                     <tr>
-                        <td>{{ $statistic->id }}</td>
-                        <td>{{ $statistic->label }}</td>
-                        <td>{{ number_format($statistic->value, 0, ',', '.') }}</td>
-                        <td>{{ $statistic->created_at->format('d-m-Y') }}</td>
+                        <td>{{ $budget->id }}</td>
+                        <td>{{ $budget->label }}</td>
+                        <td>{{ number_format($budget->amount, 0, ',', '.') }}</td>
+                        <td>{{ $budget->created_at->format('d-m-Y') }}</td>
                         <td class="action-buttons">
-                            <button class="btn btn-sm btn-secondary" onclick="editStatistic({{ $statistic->id }}, '{{ addslashes($statistic->label) }}', '{{ $statistic->value }}')">
+                            <button class="btn btn-sm btn-secondary"
+                                onclick="editBudget({{ $budget->id }}, '{{ addslashes($budget->label) }}', {{ $budget->amount }})">
                                 Edit
                             </button>
-                            <form method="POST" action="{{ route('admin.statistics.destroy', $statistic) }}" style="display: inline;">
+                            <form id="delete-form-{{ $budget->id }}" method="POST" 
+                                  action="{{ route('admin.budgets.destroy', $budget) }}" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                <button type="button" class="btn btn-sm btn-danger" 
+                                        onclick="confirmDelete('delete-form-{{ $budget->id }}')">
                                     Hapus
                                 </button>
                             </form>
@@ -51,8 +47,8 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" style="text-align: center; padding: 2rem; color: #64748b;">
-                            Belum ada data statistik
+                        <td colspan="5" style="text-align:center; padding:2rem; color:#64748b;">
+                            Belum ada data Anggaran
                         </td>
                     </tr>
                 @endforelse
@@ -60,65 +56,52 @@
         </table>
     </div>
 
-    <!-- Pagination -->
-    @if($statistics->hasPages())
-        <div class="pagination-container">
-            {{ $statistics->links() }}
-        </div>
-    @endif
-
-    <!-- Add Modal -->
-    <div class="modal" id="statisticModal">
+    <!-- Modal Tambah -->
+    <div class="modal" id="budgetModal" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Tambah Statistik</h3>
-                <button class="close-btn" onclick="closeModal('statisticModal')">&times;</button>
+                <h3>Tambah Anggaran</h3>
+                <button class="close-btn" onclick="closeModal('budgetModal')">&times;</button>
             </div>
-            <form method="POST" action="{{ route('admin.statistics.store') }}">
+            <form method="POST" action="{{ route('admin.budgets.store') }}">
                 @csrf
                 <div class="form-group">
-                    <label class="form-label">Label</label>
-                    <input type="text" name="label" class="form-input @error('label') error @enderror" placeholder="Contoh: Jumlah Penduduk" value="{{ old('label') }}" required>
-                    @error('label')
-                        <div class="error-message">{{ $message }}</div>
-                    @enderror
+                    <label>Label</label>
+                    <input type="text" name="label" class="form-input" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Nilai</label>
-                    <input type="number" name="value" id="addValue" class="form-input @error('value') error @enderror" placeholder="Contoh: 1500" value="{{ old('value') }}" min="0" required>
-                    @error('value')
-                        <div class="error-message">{{ $message }}</div>
-                    @enderror
+                    <label>Jumlah (Amount)</label>
+                    <input type="number" name="amount" class="form-input" required>
                 </div>
-                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('statisticModal')">Batal</button>
-                    <button type="submit" class="btn">Simpan</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('budgetModal')">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Edit Modal -->
-    <div class="modal" id="editStatisticModal">
+    <!-- Modal Edit -->
+    <div class="modal" id="editBudgetModal" style="display:none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Edit Statistik</h3>
-                <button class="close-btn" onclick="closeModal('editStatisticModal')">&times;</button>
+                <h3>Edit Anggaran</h3>
+                <button class="close-btn" onclick="closeModal('editBudgetModal')">&times;</button>
             </div>
-            <form method="POST" id="editStatisticForm">
+            <form method="POST" id="editBudgetForm">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label class="form-label">Label</label>
-                    <input type="text" name="label" id="editStatisticLabel" class="form-input" required>
+                    <label>Label</label>
+                    <input type="text" id="editLabel" name="label" class="form-input" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Nilai</label>
-                    <input type="number" name="value" id="editStatisticValue" class="form-input" min="0" required>
+                    <label>Jumlah (Amount)</label>
+                    <input type="number" id="editAmount" name="amount" class="form-input" required>
                 </div>
-                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('editStatisticModal')">Batal</button>
-                    <button type="submit" class="btn">Update</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editBudgetModal')">Batal</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
         </div>
@@ -127,22 +110,19 @@
 
 @push('scripts')
 <script>
-    function editStatistic(id, label, value) {
-        document.getElementById('editStatisticForm').action = `/admin/statistics/${id}`;
-        document.getElementById('editStatisticLabel').value = label;
-        document.getElementById('editStatisticValue').value = value;
-        openModal('editStatisticModal');
+    function editBudget(id, label, amount) {
+        document.getElementById('editBudgetForm').action = `/admin/budgets/${id}`;
+        document.getElementById('editLabel').value = label;
+        document.getElementById('editAmount').value = amount;
+        openModal('editBudgetModal');
     }
 
-    // Show modal if there are validation errors
-    @if($errors->any())
-        document.addEventListener('DOMContentLoaded', function() {
-            @if(old('_method') === 'PUT')
-                openModal('editStatisticModal');
-            @else
-                openModal('statisticModal');
-            @endif
-        });
-    @endif
+    function openModal(id) {
+        document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
 </script>
 @endpush

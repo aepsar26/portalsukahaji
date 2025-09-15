@@ -68,16 +68,27 @@
 
                 <div class="sidebar">
                     <!-- Kepala Kelurahan -->
-                    <div class="kepala-kelurahan-card">
-                        <div class="kepala-photo">
-                            👤
+                   @if(isset($kepala) && $kepala)
+                        <div class="kepala-kelurahan-card">
+                            <div class="kepala-photo">
+                                @if($kepala->photo)
+                                    <img src="{{ asset('storage/' . $kepala->photo) }}" 
+                                        alt="{{ $kepala->name }}" 
+                                        style="width:100px; height:100px; border-radius:50%;">
+                                @else
+                                    👤
+                                @endif
+                            </div>
+                            <div class="kepala-info">
+                                <h3>{{ $kepala->name }}</h3>
+                                <div class="jabatan">{{ $kepala->position }}</div>
+                                <p>{{ $kepala->description }}</p>
+                            </div>
                         </div>
-                        <div class="kepala-info">
-                            <h3>H. Agus, S.Sos</h3>
-                            <div class="jabatan">Kepala Kelurahan Sukahaji</div>
-                            <p>Dengan pengalaman lebih dari 15 tahun dalam pelayanan publik, berkomitmen memberikan pelayanan terbaik untuk seluruh warga Kelurahan Sukahaji.</p>
-                        </div>
-                    </div>
+                    @else
+                        <p style="color:#64748b;">Belum ada data Kepala Kelurahan.</p>
+                    @endif
+
 
                     <!-- Quick Access -->
                     <div class="quick-access">

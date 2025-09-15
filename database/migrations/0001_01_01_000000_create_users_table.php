@@ -96,6 +96,12 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->timestamps();
         });
+         Schema::create('visits', function (Blueprint $table) {
+            $table->id();
+            $table->date('visit_date')->unique();
+            $table->integer('count')->default(0);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -114,6 +120,7 @@ return new class extends Migration
         Schema::dropIfExists('transparansis');
         Schema::dropIfExists('beritas');
         Schema::dropIfExists('potensis');
+        Schema::dropIfExists('visits');
 
         
     }

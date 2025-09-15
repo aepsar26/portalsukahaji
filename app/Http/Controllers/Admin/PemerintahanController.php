@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pemerintahan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PemerintahanController extends Controller
 {
@@ -16,32 +17,53 @@ class PemerintahanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'jabatan' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string'
+            'name'        => 'required|string|max:255',
+            'position'    => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'photo'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        Pemerintahan::create($request->all());
+        $data = $request->only(['name', 'position', 'description']);
 
-        return redirect()->back()->with('success', 'Data pemerintahan berhasil ditambahkan!');
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('pemerintahans', 'public');
+        }
+
+        Pemerintahan::create($data);
+
+        return redirect()->route('admin.pemerintahans.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function update(Request $request, Pemerintahan $pemerintahan)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'jabatan' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string'
+            'name'        => 'required|string|max:255',
+            'position'    => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'photo'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $pemerintahan->update($request->all());
+        $data = $request->only(['name', 'position', 'description']);
 
-        return redirect()->back()->with('success', 'Data pemerintahan berhasil diperbarui!');
+        if ($request->hasFile('photo')) {
+            if ($pemerintahan->photo) {
+                Storage::disk('public')->delete($pemerintahan->photo);
+            }
+            $data['photo'] = $request->file('photo')->store('pemerintahans', 'public');
+        }
+
+        $pemerintahan->update($data);
+
+        return redirect()->route('admin.pemerintahans.index')->with('success', 'Data berhasil diperbarui!');
     }
 
     public function destroy(Pemerintahan $pemerintahan)
     {
+        if ($pemerintahan->photo) {
+            Storage::disk('public')->delete($pemerintahan->photo);
+        }
+
         $pemerintahan->delete();
-        return redirect()->back()->with('success', 'Data pemerintahan berhasil dihapus!');
+        return redirect()->route('admin.pemerintahans.index')->with('success', 'Data berhasil dihapus!');
     }
 }

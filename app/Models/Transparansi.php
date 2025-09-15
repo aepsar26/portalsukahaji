@@ -1,19 +1,10 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Transparansi extends Model
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'type',
-        'amount',
-    ];
-
-    protected $casts = [
-        'amount' => 'decimal:2',
-    ];
+    protected $fillable = ['type', 'amount'];
 }

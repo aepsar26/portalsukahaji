@@ -6,6 +6,7 @@ use App\Models\Statistic;
 use App\Models\Budget;
 use App\Models\Berita;
 use App\Models\Layanan;
+use App\Models\Pemerintahan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -75,6 +76,12 @@ class DatabaseSeeder extends Seeder
         Layanan::create([
             'title' => 'Pengantar KTP',
             'description' => 'Layanan surat pengantar untuk pembuatan KTP baru atau perpanjangan.'
+        ]);
+        Pemerintahan::create([
+        'name' => 'H. Agus, S.Sos',
+        'position' => 'Kepala Kelurahan',
+        'description' => 'Dengan pengalaman lebih dari 15 tahun dalam pelayanan publik...',
+        'photo' => null, 
         ]);
     }
 }
