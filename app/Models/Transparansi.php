@@ -9,11 +9,11 @@ class Transparansi extends Model
     use HasFactory;
 
     protected $fillable = [
-        'jenis',
-        'jumlah'
+        'type',
+        'amount',
     ];
 
     protected $casts = [
-        'jumlah' => 'decimal:2'
+        'amount' => 'decimal:2',
     ];
 }

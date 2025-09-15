@@ -9,8 +9,9 @@ class Pemerintahan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
-        'jabatan',
-        'deskripsi'
+        'name',
+        'position',
+        'description',
+        'photo',
     ];
 }

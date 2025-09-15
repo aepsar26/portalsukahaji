@@ -9,12 +9,13 @@ class Berita extends Model
     use HasFactory;
 
     protected $fillable = [
-        'judul',
-        'konten',
-        'tanggal'
+        'title',
+        'content',
+        'date',
+        'image',
     ];
 
     protected $casts = [
-        'tanggal' => 'date'
+        'date' => 'date',
     ];
 }

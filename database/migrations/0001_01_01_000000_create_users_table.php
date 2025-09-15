@@ -36,61 +36,64 @@ return new class extends Migration
             $table->integer('last_activity')->index();
         });
 
-         Schema::create('statistics', function (Blueprint $table) {
+        Schema::create('statistics', function (Blueprint $table) {
             $table->id();
-            $table->string('label'); // contoh: Total Penduduk
-            $table->bigInteger('value');
+            $table->string('label');
+            $table->integer('value');
             $table->timestamps();
         });
 
-         Schema::create('budgets', function (Blueprint $table) {
+        Schema::create('budgets', function (Blueprint $table) {
             $table->id();
-            $table->string('label'); // contoh: Pendapatan
-            $table->string('amount'); // simpan dalam format Rp X
+            $table->string('label');
+            $table->decimal('amount', 15, 2);
             $table->timestamps();
         });
 
         Schema::create('profils', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->text('konten');
+            $table->string('title');
+            $table->text('content');
             $table->timestamps();
         });
         
         Schema::create('pemerintahans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('jabatan');
-            $table->text('deskripsi')->nullable();
+            $table->string('name');
+            $table->string('position');
+            $table->text('description')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
 
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->text('deskripsi');
+            $table->string('title');
+            $table->text('description');
             $table->timestamps();
         });
 
         Schema::create('transparansis', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis');
-            $table->decimal('jumlah', 15, 2);
+            $table->string('type');
+            $table->decimal('amount', 15, 2);
             $table->timestamps();
         });
 
         Schema::create('beritas', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->text('konten');
-            $table->date('tanggal');
+            $table->string('title');
+            $table->text('content');
+            $table->date('date');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
 
         Schema::create('potensis', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->text('deskripsi');
+            $table->string('title');
+            $table->text('description');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

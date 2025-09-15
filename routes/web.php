@@ -1,12 +1,52 @@
 <?php
 
+
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StatisticController;
+use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\PemerintahanController;
+use App\Http\Controllers\LayananController;
+use App\Http\Controllers\TransparansiController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\PotensiController;
 
 Route::get('/', function () {
-    return view('index');
+    return redirect()->route('admin.dashboard');
 });
 
+// Admin Routes Group
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // Statistics
+    Route::resource('statistics', StatisticController::class);
+    
+    // Budgets
+    Route::resource('budgets', BudgetController::class);
+    
+    // Profils
+    Route::resource('profils', ProfilController::class);
+    
+    // Pemerintahan
+    Route::resource('pemerintahans', PemerintahanController::class);
+    
+    // Layanan
+    Route::resource('layanans', LayananController::class);
+    
+    // Transparansi
+    Route::resource('transparansis', TransparansiController::class);
+    
+    // Berita
+    Route::resource('beritas', BeritaController::class);
+    
+    // Potensi
+    Route::resource('potensis', PotensiController::class);
+});
 Route::get('beranda', [App\Http\Controllers\HomeController::class, 'index'])->name('beranda');
 
 Route::get('/profil', [App\Http\Controllers\ProfilController::class, 'index'])->name('profil');

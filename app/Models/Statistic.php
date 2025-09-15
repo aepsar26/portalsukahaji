@@ -11,10 +11,10 @@ class Statistic extends Model
 
     protected $fillable = [
         'label',
-        'value'
+        'value',
     ];
 
     protected $casts = [
-        'value' => 'integer'
+        'value' => 'integer',
     ];
 }

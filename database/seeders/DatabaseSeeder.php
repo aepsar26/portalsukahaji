@@ -1,129 +1,80 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Statistic;
 use App\Models\Budget;
-use App\Models\Layanan;
-use App\Models\Transparansi;
 use App\Models\Berita;
-use App\Models\Potensi;
-use App\Models\Profil;
+use App\Models\Layanan;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    public function run()
     {
-        // Tambahkan user admin/demo
-        User::factory()->create([
-            'name'  => 'Test User',
-            'email' => 'test@example.com',
+        // Create sample statistics
+        Statistic::create([
+            'label' => 'Total Penduduk',
+            'value' => 5432
         ]);
 
-        // Statistik penduduk
-        $statistics = [
-            ['label' => 'Total Penduduk', 'value' => 8542],
-            ['label' => 'Laki-Laki', 'value' => 4380],
-            ['label' => 'Perempuan', 'value' => 4162],
-            ['label' => 'Kepala Keluarga', 'value' => 2347],
-            ['label' => 'Penduduk Sementara', 'value' => 127],
-            ['label' => 'Mutasi Penduduk', 'value' => 89],
-        ];
-        foreach ($statistics as $item) {
-            Statistic::create($item);
-        }
-
-        // Anggaran (gunakan angka saja, format Rp ditambahkan di view)
-        $budgets = [
-            ['label' => 'Pendapatan', 'amount' => 2500000000],
-            ['label' => 'Belanja', 'amount' => 2300000000],
-            ['label' => 'Surplus', 'amount' => 200000000],
-            ['label' => 'Pembiayaan', 'amount' => 150000000],
-        ];
-        foreach ($budgets as $item) {
-            Budget::create($item);
-        }
-
-        // Profil kelurahan
-        Profil::create([
-            'judul'  => 'Profil Kelurahan Sukahaji',
-            'konten' => 'Kelurahan Sukahaji memiliki visi untuk membangun pelayanan publik yang cepat, transparan, dan akuntabel...',
+        Statistic::create([
+            'label' => 'Kepala Keluarga',
+            'value' => 1245
         ]);
 
-        // Layanan
-        $layanans = [
-            [
-                'judul'     => 'Pembuatan KTP',
-                'deskripsi' => 'Layanan pembuatan KTP elektronik bagi warga yang sudah memenuhi syarat.'
-            ],
-            [
-                'judul'     => 'Pembuatan KK',
-                'deskripsi' => 'Layanan penerbitan Kartu Keluarga untuk penduduk baru atau pindahan.'
-            ],
-            [
-                'judul'     => 'Surat Keterangan Usaha',
-                'deskripsi' => 'Layanan untuk pembuatan surat keterangan usaha (SKU).'
-            ],
-        ];
-        foreach ($layanans as $item) {
-            Layanan::create($item);
-        }
+        Statistic::create([
+            'label' => 'Laki-laki',
+            'value' => 2756
+        ]);
 
-        // Transparansi dana
-        $transparansis = [
-            ['jenis' => 'Dana Desa', 'jumlah' => 150000000],
-            ['jenis' => 'Bantuan Sosial', 'jumlah' => 50000000],
-            ['jenis' => 'Pembangunan Infrastruktur', 'jumlah' => 100000000],
-        ];
-        foreach ($transparansis as $item) {
-            Transparansi::create($item);
-        }
+        Statistic::create([
+            'label' => 'Perempuan',
+            'value' => 2676
+        ]);
 
-        // Berita
-        $beritas = [
-            [
-                'judul'   => 'Gotong Royong Bersama Warga',
-                'konten'  => 'Warga Kelurahan Sukahaji melaksanakan kegiatan gotong royong membersihkan lingkungan sekitar.',
-                'tanggal' => Carbon::now()->subDays(2),
-            ],
-            [
-                'judul'   => 'Pembagian BLT Tahap II',
-                'konten'  => 'Pemerintah kelurahan menyalurkan Bantuan Langsung Tunai tahap II kepada masyarakat yang berhak menerima.',
-                'tanggal' => Carbon::now()->subDays(5),
-            ],
-            [
-                'judul'   => 'Peringatan HUT RI ke-80',
-                'konten'  => 'Kegiatan perlombaan rakyat diselenggarakan dalam rangka memperingati Hari Ulang Tahun Republik Indonesia.',
-                'tanggal' => Carbon::now()->subDays(10),
-            ],
-        ];
-        foreach ($beritas as $item) {
-            Berita::create($item);
-        }
+        // Create sample budgets
+        Budget::create([
+            'label' => 'Pendapatan Kelurahan',
+            'amount' => 2500000000
+        ]);
 
-        // Potensi kelurahan
-        $potensis = [
-            [
-                'judul'     => 'Pertanian',
-                'deskripsi' => 'Wilayah Sukahaji memiliki potensi pertanian padi dan palawija yang melimpah.'
-            ],
-            [
-                'judul'     => 'Peternakan',
-                'deskripsi' => 'Warga banyak mengembangkan usaha peternakan sapi, kambing, dan ayam.'
-            ],
-            [
-                'judul'     => 'Pariwisata',
-                'deskripsi' => 'Terdapat potensi wisata alam berupa perbukitan dan sungai yang asri.'
-            ],
-        ];
-        foreach ($potensis as $item) {
-            Potensi::create($item);
-        }
+        Budget::create([
+            'label' => 'Belanja Operasional',
+            'amount' => 800000000
+        ]);
+
+        Budget::create([
+            'label' => 'Belanja Modal',
+            'amount' => 500000000
+        ]);
+
+        // Create sample news
+        Berita::create([
+            'title' => 'Gotong Royong Pembersihan Kelurahan',
+            'content' => 'Kegiatan gotong royong dilaksanakan setiap hari Minggu untuk menjaga kebersihan lingkungan kelurahan.',
+            'date' => now()->subDays(7)
+        ]);
+
+        Berita::create([
+            'title' => 'Pelayanan Administrasi Diperpanjang',
+            'content' => 'Jam pelayanan administrasi kependudukan diperpanjang hingga pukul 16:00 WIB untuk memudahkan masyarakat.',
+            'date' => now()->subDays(3)
+        ]);
+
+        // Create sample services
+        Layanan::create([
+            'title' => 'Surat Keterangan Domisili',
+            'description' => 'Layanan pembuatan surat keterangan domisili untuk keperluan administrasi penduduk.'
+        ]);
+
+        Layanan::create([
+            'title' => 'Surat Keterangan Tidak Mampu',
+            'description' => 'Layanan pembuatan surat keterangan tidak mampu untuk keperluan bantuan sosial.'
+        ]);
+
+        Layanan::create([
+            'title' => 'Pengantar KTP',
+            'description' => 'Layanan surat pengantar untuk pembuatan KTP baru atau perpanjangan.'
+        ]);
     }
 }

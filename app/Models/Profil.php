@@ -9,7 +9,7 @@ class Profil extends Model
     use HasFactory;
 
     protected $fillable = [
-        'judul',
-        'konten'
+        'title',
+        'content',
     ];
 }

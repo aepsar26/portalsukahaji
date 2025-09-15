@@ -10,6 +10,10 @@ class Budget extends Model
 
     protected $fillable = [
         'label',
-        'amount'
+        'amount',
+    ];
+
+    protected $casts = [
+        'amount' => 'decimal:2',
     ];
 }
