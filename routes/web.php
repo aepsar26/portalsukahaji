@@ -52,7 +52,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Potensi
     Route::resource('potensis', PotensiController::class)->except(['create', 'edit', 'show']);
 
-    Route::resource('sliders', SliderController::class)->only(['index','create','store','destroy']);
+    Route::resource('sliders', SliderController::class)->except(['show', 'edit', 'create']);
 });
 
 Route::get('/track-visit', [VisitController::class, 'trackVisit']); 

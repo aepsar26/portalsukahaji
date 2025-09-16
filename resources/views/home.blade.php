@@ -77,7 +77,7 @@
                                 @if($kepala->photo)
                                     <img src="{{ asset('storage/' . $kepala->photo) }}" 
                                         alt="{{ $kepala->name }}" 
-                                        style="width:100px; height:100px; border-radius:50%;">
+                                        class="foto-kepala">
                                 @else
                                     👤
                                 @endif
