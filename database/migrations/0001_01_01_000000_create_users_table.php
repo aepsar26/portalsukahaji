@@ -102,6 +102,12 @@ return new class extends Migration
             $table->integer('count')->default(0);
             $table->timestamps();
         });
+        Schema::create('sliders', function (Blueprint $table) {
+            $table->id();
+            $table->string('image'); // path foto
+            $table->timestamps();
+        });
+
     }
 
     /**
@@ -121,6 +127,7 @@ return new class extends Migration
         Schema::dropIfExists('beritas');
         Schema::dropIfExists('potensis');
         Schema::dropIfExists('visits');
+        Schema::dropIfExists('sliders');
 
         
     }

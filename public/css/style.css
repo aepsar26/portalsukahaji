@@ -262,14 +262,15 @@
         }
         
         /* Container slider */
-        .bg-slider {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
+       .bg-slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    overflow: hidden;
+}
 
         .hero-content {
             position: relative;
@@ -278,15 +279,15 @@
 
 
         /* Setiap slide background */
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            animation: slideAnimation 15s infinite;
-        }
+       .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: slideAnimation 15s infinite;
+}
 
         /* Delay agar bergantian */
         .slide:nth-child(1) { animation-delay: 0s; }
@@ -294,13 +295,13 @@
         .slide:nth-child(3) { animation-delay: 10s; }
 
         /* Animasi Fade */
-        @keyframes slideAnimation {
-            0%   { opacity: 0; }
-            10%  { opacity: 1; }
-            30%  { opacity: 1; }
-            40%  { opacity: 0; }
-            100% { opacity: 0; }
-        }
+      @keyframes slideAnimation {
+    0%   { opacity: 0; }
+    10%  { opacity: 1; }
+    30%  { opacity: 1; }
+    40%  { opacity: 0; }
+    100% { opacity: 0; }
+}
 
         /* Sidebar */
         .sidebar {

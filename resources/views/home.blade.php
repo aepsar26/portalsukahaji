@@ -3,19 +3,20 @@
 @section('title', 'Beranda - Kelurahan Sukahaji')
 
 @section('content')
-    <!-- Hero Section -->
-    <section class="hero">
+<section class="hero">
     <div class="bg-slider">
-        <div class="slide" style="background-image: url('/images/photo1.jpg');"></div>
-        <div class="slide" style="background-image: url('/images/photo2.jpg');"></div>
-        <div class="slide" style="background-image: url('/images/photo3.jpg');"></div>
+        @foreach($sliders as $index => $slider)
+            <div class="slide" 
+                 style="background-image: url('{{ asset('storage/'.$slider->image) }}'); 
+                        animation-delay: {{ $index * 5 }}s;">
+            </div>
+        @endforeach
     </div>
     <div class="hero-content">
         <h2>Selamat Datang di Website Resmi Kelurahan Sukahaji</h2>
-        <p>Melalui website ini Anda dapat menjelajahi segala hal yang terkait dengan Kelurahan Sukahaji.</p>
+        <p>Website profil dan data digital pembangunan yang mudah diakses dengan transparansi terukur.</p>
     </div>
 </section>
-
 
     <!-- Main Content -->
     <main class="main-content">

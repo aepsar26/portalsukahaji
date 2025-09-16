@@ -6,6 +6,7 @@ use App\Models\Statistic;
 use App\Models\Budget;
 use App\Models\Pemerintahan;
 use App\Models\Visit;
+use App\Models\Slider; // tambahkan ini
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -20,6 +21,9 @@ class HomeController extends Controller
 
         // Anggaran
         $budgets = Budget::all();
+
+        // Sliders (background hero dinamis)
+        $sliders = Slider::all();
 
         // ----- TRACKING KUNJUNGAN HARI INI -----
         $today = Carbon::today()->toDateString();
@@ -38,6 +42,6 @@ class HomeController extends Controller
 
         // ----- END TRACKING -----
 
-        return view('home', compact('kepala', 'statistics', 'budgets', 'todayCount'));
+        return view('home', compact('kepala', 'statistics', 'budgets', 'todayCount', 'sliders'));
     }
 }

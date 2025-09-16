@@ -3,9 +3,9 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Kelurahan Sukahaji</h4>
-                <p>Jl. Sukahaji No. 123<br>
+                <p>Jl. H. Zakaria No. 24<br>
                 Kecamatan Babakan Ciparay<br>
-                Kota Bandung 40223<br>
+                Kota Bandung 40221<br>
                 Provinsi Jawa Barat</p>
             </div>
             <div class="footer-section">

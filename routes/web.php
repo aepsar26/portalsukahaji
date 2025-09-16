@@ -13,7 +13,9 @@ use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\TransparansiController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\PotensiController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\VisitController;
+
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('beranda');
 
@@ -49,6 +51,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
     // Potensi
     Route::resource('potensis', PotensiController::class)->except(['create', 'edit', 'show']);
+
+    Route::resource('sliders', SliderController::class)->only(['index','create','store','destroy']);
 });
 
 Route::get('/track-visit', [VisitController::class, 'trackVisit']); 

@@ -67,5 +67,12 @@
                 Potensi Kelurahan
             </a>
         </div>
+        <div class="nav-item">
+            <a href="{{ route('admin.sliders.index') }}" 
+               class="nav-link {{ request()->routeIs('admin.sliders.*') ? 'active' : '' }}">
+                <i>🖼️</i>
+                Sliders
+            </a>
+        </div>
     </nav>
 </aside>
