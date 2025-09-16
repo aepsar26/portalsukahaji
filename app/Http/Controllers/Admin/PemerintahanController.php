@@ -19,8 +19,6 @@ class PemerintahanController extends Controller
         return view('admin.pemerintahans.index', compact('kepala', 'pemerintahans'));
     }
 
-
-
     public function store(Request $request)
     {
         $request->validate([
@@ -33,12 +31,38 @@ class PemerintahanController extends Controller
         $data = $request->only(['name', 'position', 'description']);
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('pemerintahans', 'public');
+            // Simpan file original
+            $originalPath = $request->file('photo')->store('pemerintahans/original', 'public');
+            $inputPath = storage_path('app/public/' . $originalPath);
+
+            // Nama file hasil cleaned
+            $outputFileName = 'pemerintahans/cleaned_' . time() . '.png';
+            $outputPath = storage_path('app/public/' . $outputFileName);
+
+            // Jalankan Python (pakai path absolut + escapeshellarg)
+            $command = "python " . base_path('scripts/remove_bg.py') . " " 
+                        . escapeshellarg($inputPath) . " " 
+                        . escapeshellarg($outputPath);
+
+            exec($command, $output, $returnVar);
+
+            if ($returnVar === 0 && file_exists($outputPath)) {
+                // Kalau berhasil → pakai file hasil
+                $data['photo'] = $outputFileName;
+
+                // Hapus original supaya hemat storage
+                Storage::disk('public')->delete($originalPath);
+            } else {
+                // fallback → kalau gagal tetap simpan file asli
+                $data['photo'] = $originalPath;
+                \Log::error("RemoveBG gagal: " . implode("\n", $output));
+            }
         }
 
         Pemerintahan::create($data);
 
-        return redirect()->route('admin.pemerintahans.index')->with('success', 'Data berhasil ditambahkan!');
+        return redirect()->route('admin.pemerintahans.index')
+            ->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function update(Request $request, Pemerintahan $pemerintahan)
@@ -53,15 +77,41 @@ class PemerintahanController extends Controller
         $data = $request->only(['name', 'position', 'description']);
 
         if ($request->hasFile('photo')) {
+            // Hapus foto lama
             if ($pemerintahan->photo) {
                 Storage::disk('public')->delete($pemerintahan->photo);
             }
-            $data['photo'] = $request->file('photo')->store('pemerintahans', 'public');
+
+            // Simpan file original
+            $originalPath = $request->file('photo')->store('pemerintahans/original', 'public');
+            $inputPath = storage_path('app/public/' . $originalPath);
+
+            // Nama file hasil cleaned
+            $outputFileName = 'pemerintahans/cleaned_' . time() . '.png';
+            $outputPath = storage_path('app/public/' . $outputFileName);
+
+            // Jalankan Python
+            $command = "python " . base_path('scripts/remove_bg.py') . " " 
+                        . escapeshellarg($inputPath) . " " 
+                        . escapeshellarg($outputPath);
+
+            exec($command, $output, $returnVar);
+
+            if ($returnVar === 0 && file_exists($outputPath)) {
+                $data['photo'] = $outputFileName;
+
+                // Hapus original supaya hemat storage
+                Storage::disk('public')->delete($originalPath);
+            } else {
+                $data['photo'] = $originalPath;
+                \Log::error("RemoveBG gagal: " . implode("\n", $output));
+            }
         }
 
         $pemerintahan->update($data);
 
-        return redirect()->route('admin.pemerintahans.index')->with('success', 'Data berhasil diperbarui!');
+        return redirect()->route('admin.pemerintahans.index')
+            ->with('success', 'Data berhasil diperbarui!');
     }
 
     public function destroy(Pemerintahan $pemerintahan)
@@ -71,6 +121,8 @@ class PemerintahanController extends Controller
         }
 
         $pemerintahan->delete();
-        return redirect()->route('admin.pemerintahans.index')->with('success', 'Data berhasil dihapus!');
+
+        return redirect()->route('admin.pemerintahans.index')
+            ->with('success', 'Data berhasil dihapus!');
     }
 }

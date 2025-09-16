@@ -71,15 +71,20 @@
 
                 <div class="sidebar">
                     <!-- Kepala Kelurahan -->
-                   @if(isset($kepala) && $kepala)
+                   <!-- Kepala Kelurahan -->
+                    @if(isset($kepala) && $kepala)
                         <div class="kepala-kelurahan-card">
                             <div class="kepala-photo">
-                                @if($kepala->photo)
+                                @if($kepala->photo && file_exists(public_path('storage/' . $kepala->photo)))
                                     <img src="{{ asset('storage/' . $kepala->photo) }}" 
                                         alt="{{ $kepala->name }}" 
-                                        class="foto-kepala">
+                                        class="foto-kepala"
+                                        style="object-fit: cover; border-radius: 50%; background: transparent;" />
                                 @else
-                                    👤
+                                    <img src="{{ asset('images/default-profile.png') }}" 
+                                        alt="Default Photo" 
+                                        class="foto-kepala"
+                                        style="object-fit: cover; border-radius: 50%; background: transparent;" />
                                 @endif
                             </div>
                             <div class="kepala-info">
@@ -91,6 +96,7 @@
                     @else
                         <p style="color:#64748b;">Belum ada data Kepala Kelurahan.</p>
                     @endif
+
 
 
                     <!-- Quick Access -->
