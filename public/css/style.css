@@ -143,27 +143,42 @@
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9)),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            position: relative;
+            width: 100%;
+            height: 50vh; /* setengah layar */
             color: white;
-            padding: 60px 0;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
-        
-        .hero-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            font-weight: 300;
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4); /* gelap transparan */
+            backdrop-filter: blur(3px);  /* efek blur */
+            z-index: 1;
         }
-        
+                
+            .hero-content h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* biar makin jelas */
+        }
+                
         .hero-content p {
-            font-size: 1.2rem;
-            max-width: 800px;
+            font-size: 1rem;
+            max-width: 700px;
             margin: 0 auto;
-            opacity: 0.9;
-            line-height: 1.8;
-        }
-        
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }  
         /* Main Content */
         .main-content {
             padding: 40px 0;
@@ -246,37 +261,46 @@
             letter-spacing: 0.5px;
         }
         
-/* Container slider */
-.bg-slider {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
+        /* Container slider */
+        .bg-slider {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
 
-/* Setiap slide background */
-.slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    animation: slideAnimation 15s infinite;
-}
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
 
-/* Delay agar bergantian */
-.slide:nth-child(1) { animation-delay: 0s; }
-.slide:nth-child(2) { animation-delay: 5s; }
-.slide:nth-child(3) { animation-delay: 10s; }
 
-/* Animasi Fade */
-@keyframes slideAnimation {
-    0%   { opacity: 0; }
-    10%  { opacity: 1; }
-    30%  { opacity: 1; }
-    40%  { opacity: 0; }
-    100% { opacity: 0; }
-}
+        /* Setiap slide background */
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: slideAnimation 15s infinite;
+        }
+
+        /* Delay agar bergantian */
+        .slide:nth-child(1) { animation-delay: 0s; }
+        .slide:nth-child(2) { animation-delay: 5s; }
+        .slide:nth-child(3) { animation-delay: 10s; }
+
+        /* Animasi Fade */
+        @keyframes slideAnimation {
+            0%   { opacity: 0; }
+            10%  { opacity: 1; }
+            30%  { opacity: 1; }
+            40%  { opacity: 0; }
+            100% { opacity: 0; }
+        }
 
         /* Sidebar */
         .sidebar {

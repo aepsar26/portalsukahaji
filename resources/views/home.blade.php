@@ -4,29 +4,18 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="hero relative h-screen overflow-hidden" id="beranda">
-        <!-- Overlay Gelap -->
-        <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+    <section class="hero">
+    <div class="bg-slider">
+        <div class="slide" style="background-image: url('/images/photo1.jpg');"></div>
+        <div class="slide" style="background-image: url('/images/photo2.jpg');"></div>
+        <div class="slide" style="background-image: url('/images/photo3.jpg');"></div>
+    </div>
+    <div class="hero-content">
+        <h2>Selamat Datang di Website Resmi Kelurahan Sukahaji</h2>
+        <p>Melalui website ini Anda dapat menjelajahi segala hal yang terkait dengan Kelurahan Sukahaji.</p>
+    </div>
+</section>
 
-        <!-- Background Slideshow -->
-        <div class="absolute inset-0 z-0">
-            <div class="bg-slider">
-                <div class="slide" style="background-image: url('{{ asset('images/photo1.jpg') }}');"></div>
-                <div class="slide" style="background-image: url('{{ asset('images/photo2.jpg') }}');"></div>
-                <div class="slide" style="background-image: url('{{ asset('images/photo3.jpg') }}');"></div>
-            </div>
-        </div>
-
-        <!-- Konten Hero -->
-        <div class="container relative z-20 flex flex-col items-center justify-center h-full text-center text-white px-4">
-            <h2 class="text-4xl md:text-5xl font-bold mb-4">
-                Selamat Datang di Website Resmi Kelurahan Sukahaji
-            </h2>
-            <p class="text-lg md:text-xl max-w-2xl">
-                Melalui website ini Anda dapat menjelajahi segala hal yang terkait dengan Kelurahan Sukahaji.
-            </p>
-        </div>
-    </section>
 
     <!-- Main Content -->
     <main class="main-content">
