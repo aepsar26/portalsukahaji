@@ -10,9 +10,16 @@ class PemerintahanController extends Controller
 {
     public function index()
     {
+        // Ambil Kepala Kelurahan (misal berdasarkan posisi)
+        $kepala = Pemerintahan::where('position', 'Lurah Sukahaji')->first();
+
+        // Jika juga ingin menampilkan semua pejabat
         $pemerintahans = Pemerintahan::latest()->get();
-        return view('admin.pemerintahans.index', compact('pemerintahans'));
+
+        return view('admin.pemerintahans.index', compact('kepala', 'pemerintahans'));
     }
+
+
 
     public function store(Request $request)
     {

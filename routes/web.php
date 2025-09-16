@@ -15,8 +15,9 @@ use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\PotensiController;
 use App\Http\Controllers\VisitController;
 
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('beranda');
 
-Route::get('/', function () {
+Route::get('/admin', function () {
     return redirect()->route('admin.dashboard');
 });
 
