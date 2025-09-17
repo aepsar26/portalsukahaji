@@ -23,37 +23,31 @@ class PemerintahanController extends Controller
     {
         $request->validate([
             'name'        => 'required|string|max:255',
+            'nip'         => 'nullable|string|max:50',   // ✅ validasi nip
             'position'    => 'required|string|max:255',
             'description' => 'nullable|string',
             'photo'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['name', 'position', 'description']);
+        $data = $request->only(['name', 'nip', 'position', 'description']); // ✅ ikutkan nip
 
         if ($request->hasFile('photo')) {
-            // Simpan file original
             $originalPath = $request->file('photo')->store('pemerintahans/original', 'public');
             $inputPath = storage_path('app/public/' . $originalPath);
 
-            // Nama file hasil cleaned
             $outputFileName = 'pemerintahans/cleaned_' . time() . '.png';
             $outputPath = storage_path('app/public/' . $outputFileName);
 
-            // Jalankan Python (pakai path absolut + escapeshellarg)
-            $command = "python " . base_path('scripts/remove_bg.py') . " " 
-                        . escapeshellarg($inputPath) . " " 
+            $command = "python " . base_path('scripts/remove_bg.py') . " "
+                        . escapeshellarg($inputPath) . " "
                         . escapeshellarg($outputPath);
 
             exec($command, $output, $returnVar);
 
             if ($returnVar === 0 && file_exists($outputPath)) {
-                // Kalau berhasil → pakai file hasil
                 $data['photo'] = $outputFileName;
-
-                // Hapus original supaya hemat storage
                 Storage::disk('public')->delete($originalPath);
             } else {
-                // fallback → kalau gagal tetap simpan file asli
                 $data['photo'] = $originalPath;
                 \Log::error("RemoveBG gagal: " . implode("\n", $output));
             }
@@ -69,38 +63,33 @@ class PemerintahanController extends Controller
     {
         $request->validate([
             'name'        => 'required|string|max:255',
+            'nip'         => 'nullable|string|max:50',   // ✅ validasi nip
             'position'    => 'required|string|max:255',
             'description' => 'nullable|string',
             'photo'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['name', 'position', 'description']);
+        $data = $request->only(['name', 'nip', 'position', 'description']); // ✅ ikutkan nip
 
         if ($request->hasFile('photo')) {
-            // Hapus foto lama
             if ($pemerintahan->photo) {
                 Storage::disk('public')->delete($pemerintahan->photo);
             }
 
-            // Simpan file original
             $originalPath = $request->file('photo')->store('pemerintahans/original', 'public');
             $inputPath = storage_path('app/public/' . $originalPath);
 
-            // Nama file hasil cleaned
             $outputFileName = 'pemerintahans/cleaned_' . time() . '.png';
             $outputPath = storage_path('app/public/' . $outputFileName);
 
-            // Jalankan Python
-            $command = "python " . base_path('scripts/remove_bg.py') . " " 
-                        . escapeshellarg($inputPath) . " " 
+            $command = "python " . base_path('scripts/remove_bg.py') . " "
+                        . escapeshellarg($inputPath) . " "
                         . escapeshellarg($outputPath);
 
             exec($command, $output, $returnVar);
 
             if ($returnVar === 0 && file_exists($outputPath)) {
                 $data['photo'] = $outputFileName;
-
-                // Hapus original supaya hemat storage
                 Storage::disk('public')->delete($originalPath);
             } else {
                 $data['photo'] = $originalPath;

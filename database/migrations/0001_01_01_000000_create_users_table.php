@@ -60,6 +60,7 @@ return new class extends Migration
         Schema::create('pemerintahans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('nip')->nullable(); 
             $table->string('position');
             $table->text('description')->nullable();
             $table->string('photo')->nullable();

@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\PotensiController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\VisitController;
-
+use App\Http\Controllers\StrukturController;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('beranda');
 
@@ -72,9 +72,7 @@ Route::get('/peta-kelurahan', function () {
     return view('pages.peta');
 })->name('peta');
 
-Route::get('/struktur-organisasi', function () {
-    return view('pages.struktur');
-})->name('struktur');
+Route::get('/struktur', [StrukturController::class, 'index'])->name('struktur');
 
 Route::get('/persuratan-online', function () {
     return view('pages.persuratan');

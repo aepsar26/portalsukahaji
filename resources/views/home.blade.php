@@ -70,8 +70,7 @@
 
 
                 <div class="sidebar">
-                    <!-- Kepala Kelurahan -->
-                   <!-- Kepala Kelurahan -->
+                <!-- Kepala Kelurahan -->
                     @if(isset($kepala) && $kepala)
                         <div class="kepala-kelurahan-card">
                             <div class="kepala-photo">
@@ -88,15 +87,18 @@
                                 @endif
                             </div>
                             <div class="kepala-info">
-                                <h3>{{ $kepala->name }}</h3>
-                                <div class="jabatan">{{ $kepala->position }}</div>
+                                <div class="jabatan">{{ $kepala->position }}</div> {{-- ✅ Jabatan di atas --}}
+                                <h3 class="nama">{{ $kepala->name }}</h3> {{-- ✅ tambahkan class "nama" --}}
+                                <br>
+                                <div class="nip-field">
+                                    <strong>NIP:</strong> {{ $kepala->nip }}
+                                </div>
                                 <p>{{ $kepala->description }}</p>
                             </div>
                         </div>
                     @else
                         <p style="color:#64748b;">Belum ada data Kepala Kelurahan.</p>
                     @endif
-
 
 
                     <!-- Quick Access -->

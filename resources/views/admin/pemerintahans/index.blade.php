@@ -19,6 +19,7 @@
         <thead>
             <tr>
                 <th>Nama</th>
+                <th>NIP</th> {{-- ✅ kolom baru --}}
                 <th>Jabatan</th>
                 <th>Deskripsi</th>
                 <th>Foto</th>
@@ -29,6 +30,7 @@
             @forelse($pemerintahans as $p)
                 <tr>
                     <td>{{ $p->name }}</td>
+                    <td>{{ $p->nip ?? '-' }}</td> {{-- ✅ tampilkan nip --}}
                     <td>{{ $p->position }}</td>
                     <td>{{ Str::limit($p->description, 40) }}</td>
                     <td>
@@ -37,7 +39,8 @@
                         @endif
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-secondary" onclick="editPemerintahan({{ $p->id }}, '{{ addslashes($p->name) }}', '{{ addslashes($p->position) }}', `{{ addslashes($p->description) }}`)">
+                        <button class="btn btn-sm btn-secondary"
+                            onclick="editPemerintahan({{ $p->id }}, '{{ addslashes($p->name) }}', '{{ addslashes($p->nip) }}', '{{ addslashes($p->position) }}', `{{ addslashes($p->description) }}`)">
                             Edit
                         </button>
                         <form action="{{ route('admin.pemerintahans.destroy', $p) }}" method="POST" style="display:inline;">
@@ -47,7 +50,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="5" style="text-align:center">Belum ada data</td></tr>
+                <tr><td colspan="6" style="text-align:center">Belum ada data</td></tr>
             @endforelse
         </tbody>
     </table>
@@ -65,6 +68,10 @@
             <div class="form-group">
                 <label>Nama</label>
                 <input type="text" name="name" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label>NIP</label> {{-- ✅ field nip --}}
+                <input type="text" name="nip" class="form-input">
             </div>
             <div class="form-group">
                 <label>Jabatan</label>
@@ -100,6 +107,10 @@
                 <input type="text" id="editName" name="name" class="form-input" required>
             </div>
             <div class="form-group">
+                <label>NIP</label> {{-- ✅ field nip --}}
+                <input type="text" id="editNip" name="nip" class="form-input">
+            </div>
+            <div class="form-group">
                 <label>Jabatan</label>
                 <input type="text" id="editPosition" name="position" class="form-input" required>
             </div>
@@ -122,9 +133,10 @@
 
 @push('scripts')
 <script>
-function editPemerintahan(id, name, position, description) {
+function editPemerintahan(id, name, nip, position, description) {
     document.getElementById('editPemerintahanForm').action = `/admin/pemerintahans/${id}`;
     document.getElementById('editName').value = name;
+    document.getElementById('editNip').value = nip ?? ''; // ✅ isi nip
     document.getElementById('editPosition').value = position;
     document.getElementById('editDescription').value = description;
     openModal('editPemerintahanModal');

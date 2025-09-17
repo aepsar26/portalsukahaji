@@ -5,5 +5,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pemerintahan extends Model
 {
-    protected $fillable = ['name', 'position', 'description', 'photo'];
+    protected $fillable = [
+        'name',
+        'nip',        // ✅ tambahkan nip di sini
+        'position',
+        'description',
+        'photo',
+    ];
 }

@@ -78,10 +78,61 @@ class DatabaseSeeder extends Seeder
             'description' => 'Layanan surat pengantar untuk pembuatan KTP baru atau perpanjangan.'
         ]);
         Pemerintahan::create([
-        'name' => 'H. Agus, S.Sos',
+        'name' => 'AGUS RIYADI, S.E',
+        'nip' => '19720823 2003 1 001',
         'position' => 'Kepala Kelurahan',
         'description' => 'Dengan pengalaman lebih dari 15 tahun dalam pelayanan publik...',
         'photo' => null, 
+        ]);
+         // Sekretaris
+        Pemerintahan::create([
+            'name' => 'HANDRIYANA, SH.',
+            'nip' => '19761230 201001 1 004',
+            'position' => 'Sekretaris Kelurahan',
+            'description' => 'Membantu Kepala dalam administrasi',
+            'photo' => null,
+        ]);
+
+        // Kepala Seksi
+        Pemerintahan::create([
+            'name' => 'HANDRIYANA, SH.',
+            'nip' => '19761230 201001 1 004',
+            'position' => 'PLT. Kepala Seksi Pemerintahan',
+            'description' => null,
+            'photo' => null,
+        ]);
+
+        Pemerintahan::create([
+            'name' => 'BONDAN IRAWAN, SE.',
+            'nip' => '19710505 200801 1 008',
+            'position' => 'Kepala Seksi ekonomi dan Pembangunan',
+            'description' => null,
+            'photo' => null,
+        ]);
+
+        Pemerintahan::create([
+            'name' => 'TUTY MASITOH, S.Sos',
+            'nip' => '19721201 200701 2 011',
+            'position' => 'Kepala Seksi kesejahteraan Sosial',
+            'description' => null,
+            'photo' => null,
+        ]);
+
+        // Staff (contoh saja)
+        Pemerintahan::create([
+            'name' => 'Staff A',
+            'nip' => '19981208 202001 2 004',
+            'position' => 'Bendahara Kelurahan',
+            'description' => null,
+            'photo' => null,
+        ]);
+
+        Pemerintahan::create([
+            'name' => 'Staff B',
+            'nip' => '19901105 199101 2 002',
+            'position' => 'Staff Administrasi',
+            'description' => null,
+            'photo' => null,
         ]);
     }
 }

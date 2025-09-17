@@ -377,6 +377,45 @@
             color: #555;
         }
         
+        .jabatan {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Nama pakai underline */
+.org-item .nama {
+    display: inline-block;
+    border-bottom: 1px solid #333; 
+    padding-bottom: 2px;
+    margin-bottom: 4px;
+}
+
+/* NIP tampil biasa tanpa garis bawah */
+.nip-field {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: #444;
+    margin-top: 2px;
+    border: none; 
+}
+
+.kepala-info .nama {
+    display: inline-block;
+    border-bottom: 2px solid #333; 
+    margin-bottom: 6px;
+}
+
+/* hapus garis bawah di NIP */
+.kepala-info .nip-field {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: #444;
+    margin: 4px 0;
+    border: none; 
+}
+
+
         /* Quick Access */
         .quick-access {
             background: white;
@@ -610,3 +649,105 @@
                 justify-content: center;
             }
         }
+        /* css untuk halaman struktur organisasi */
+.org-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+.org-level {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
+  position: relative;
+}
+
+.org-level.horizontal {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  position: relative;
+}
+
+.org-item {
+  border: 2px solid #333;
+  padding: 10px;
+  border-radius: 6px;
+  background: #f9f9f9;
+  min-width: 130px;
+  text-align: center;
+}
+
+.org-level.horizontal::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: 193px;
+  right: 0;
+  height: 2px;
+  width: 1015px;
+  background: #333;
+}
+
+/* Sekretaris */
+.sekretaris-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center; /* garis utama di tengah */
+  align-items: center;
+  margin: 20px 0;
+}
+
+.org-connector.vertical {
+  width: 2px;
+  height: 60px;
+  background: #333;
+}
+
+.horizontal-line {
+  position: absolute;
+  left: 50%;   /* mulai dari tengah */
+  top: 50%;    /* sejajar dengan garis */
+  width: 100px; /* panjang garis mendatar */
+  height: 2px;
+  background: #333;
+}
+
+.sekretaris {
+  position: absolute;
+  left: calc(50% + 100px); /* letakkan tepat setelah garis horizontal */
+  top: 50%;
+  transform: translateY(-50%); /* sejajarkan vertikal */
+  min-width: 220px;
+  border: 2px solid #333;
+  padding: 10px;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+/* Garis vertikal ke setiap Kepala Seksi */
+/* Kepala Seksi - garis vertikal ke masing-masing kotak */
+.org-level.horizontal .org-item {
+  position: relative; /* penting */
+}
+
+.org-level.horizontal {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  position: relative;
+  margin-top: 50px; /* geser semua kotak ke bawah */
+}
+
+.org-level.horizontal .org-item::before {
+  content: "";
+  position: absolute;
+  top: -50px;   /* panjang garis turun dari garis utama */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 50px; /* panjang garis ke bawah */
+  background: #333;
+}
