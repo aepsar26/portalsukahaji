@@ -9,14 +9,22 @@
     </div>
     <div class="card-body">
         @forelse($beritas as $berita)
-            <div class="service-card" style="margin-bottom:20px;">
-                <div class="service-icon">
-                    <i class="fas fa-newspaper"></i>
+            <div class="service-card mb-4 p-3 border rounded shadow-sm">
+                <div class="service-icon mb-2">
+                    <i class="fas fa-newspaper fa-lg"></i>
                 </div>
                 <div class="service-content">
-                    <h4>{{ $berita->judul }}</h4>
-                    <small class="text-muted">{{ \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d F Y') }}</small>
-                    <p>{{ $berita->konten }}</p>
+                    <h4>{{ $berita->title }}</h4>
+                    <small class="text-muted">
+                        {{ \Carbon\Carbon::parse($berita->date)->translatedFormat('d F Y') }}
+                    </small>
+                    <p class="mt-2">{{ $berita->content }}</p>
+
+                    @if($berita->image)
+                        <img src="{{ asset('storage/' . $berita->image) }}" 
+                             alt="{{ $berita->title }}" 
+                             class="img-fluid mt-2 rounded">
+                    @endif
                 </div>
             </div>
         @empty

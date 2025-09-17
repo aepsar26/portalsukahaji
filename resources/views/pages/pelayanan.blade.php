@@ -7,15 +7,19 @@
     <h3>Daftar Layanan Kelurahan</h3>
 </div>
 <div class="card-body">
-    <div class="services-grid">
+    <div class="services-grid row">
         @forelse($layanans as $pelayanan)
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-tasks"></i>
-                </div>
-                <div class="service-content">
-                    <h4>{{ $pelayanan->judul }}</h4>
-                    <p>{{ $pelayanan->deskripsi }}</p>
+            <div class="col-md-4 mb-3">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="service-icon mb-2">
+                            <i class="fas fa-tasks fa-2x"></i>
+                        </div>
+                        <div class="service-content">
+                            <h4>{{ $pelayanan->title }}</h4>
+                            <p>{{ $pelayanan->description }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         @empty
@@ -23,5 +27,4 @@
         @endforelse
     </div>
 </div>
-
 @endsection

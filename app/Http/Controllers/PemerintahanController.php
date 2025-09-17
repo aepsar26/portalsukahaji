@@ -6,9 +6,12 @@ use App\Models\Pemerintahan;
 
 class PemerintahanController extends Controller
 {
+
+
     public function index()
     {
-        $pemerintahan = Pemerintahan::all();
-        return view('pages.pemerintahan', compact('pemerintahan'));
+        $pemerintahans = Pemerintahan::all();
+        return view('pages.pemerintahan', compact('pemerintahans'));
     }
+
 }

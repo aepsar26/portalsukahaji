@@ -9,8 +9,8 @@
     </div>
     <div class="card-body">
         <ul>
-            @forelse($pemerintahan as $p)
-                <li><strong>{{ $p->nama }}</strong> - {{ $p->jabatan }}</li>
+            @forelse($pemerintahans as $p)
+                <li><strong>{{ $p->name }}</strong> - {{ $p->position }}</li>
             @empty
                 <li>Belum ada data</li>
             @endforelse
