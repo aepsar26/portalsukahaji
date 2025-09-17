@@ -87,8 +87,8 @@
                                 @endif
                             </div>
                             <div class="kepala-info">
-                                <div class="jabatan">{{ $kepala->position }}</div> {{-- ✅ Jabatan di atas --}}
-                                <h3 class="nama">{{ $kepala->name }}</h3> {{-- ✅ tambahkan class "nama" --}}
+                                <div class="jabatan">{{ $kepala->position }}</div> 
+                                <h3 class="nama">{{ $kepala->name }}</h3> 
                                 <br>
                                 <div class="nip-field">
                                     <strong>NIP:</strong> {{ $kepala->nip }}
@@ -118,7 +118,7 @@
 
             <!-- Services Grid -->
             <div class="services-grid">
-                <div class="service-card">
+                <a href="{{ route('berita') }}" class="service-card" style="text-decoration: none; color: inherit;">
                     <div class="service-icon">
                         <i class="fas fa-newspaper"></i>
                     </div>
@@ -126,9 +126,8 @@
                         <h4>Berita Terkini</h4>
                         <p>Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Kelurahan Sukahaji</p>
                     </div>
-                </div>
-
-                <div class="service-card">
+                </a>
+                <a href="{{ route('potensi') }}" class="service-card" style="text-decoration: none; color: inherit;">
                     <div class="service-icon">
                         <i class="fas fa-seedling"></i>
                     </div>
@@ -136,14 +135,14 @@
                         <h4>Potensi Kelurahan</h4>
                         <p>Informasi tentang potensi dan kemajuan Kelurahan di berbagai bidang seperti ekonomi, pariwisata, pertanian, industri kreatif, dan kelestarian lingkungan</p>
                     </div>
-                </div>
-
+                </a>
+                
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-camera"></i>
                     </div>
                     <div class="service-content">
-                        <h4>Wisata Kelurahan</h4>
+                        <h4>Pemberdayaan Kelurahan</h4>
                         <p>Layanan yang mempermudah promosi wisata Kelurahan sehingga dapat menarik pengunjung dan wisatawan</p>
                     </div>
                 </div>
@@ -183,10 +182,12 @@
                         <h4>Kegiatan Kelurahan</h4>
                         <p>Menampilkan kegiatan-kegiatan yang berlangsung di Kelurahan Sukahaji</p>
                         <ul class="service-list">
-                            <li><i class="fas fa-check"></i> Program Kampung Hijau</li>
-                            <li><i class="fas fa-check"></i> Kelurahan Smart City</li>
-                            <li><i class="fas fa-check"></i> Senam Sehat Bersama</li>
+                            <li><i class="fas fa-check"></i> Bandung Prakarsa</li>
+                            <li><i class="fas fa-check"></i> Buaruan sae Gema</li>
+                            <li><i class="fas fa-check"></i> Siskamling Aktif</li>
                             <li><i class="fas fa-check"></i> Bank Sampah</li>
+                            <li><i class="fas fa-check"></i> Pemilahan Sampah</li>
+                            <li><i class="fas fa-check"></i> penanganan pengurangan Sampah</li>
                         </ul>
                     </div>
                 </div>

@@ -14,10 +14,14 @@
     @if($kepala)
         <div class="org-level top">
             <div class="org-item">
-                <img src="{{ asset('storage/'.$kepala->photo) }}" alt="{{ $kepala->name }}">
-                <span class="jabatan">{{ $kepala->position }}</span><br>
-                <strong class="nama">{{ $kepala->name }}</strong><br>
-                <div class="nip-field"><strong>NIP:</strong> {{ $kepala->nip }}</div>
+                <div class="card-content">
+                    <img src="{{ asset('storage/'.$kepala->photo) }}" alt="{{ $kepala->name }}">
+                    <div class="info">
+                        <span class="jabatan">{{ $kepala->position }}</span><br>
+                        <strong class="nama">{{ $kepala->name }}</strong><br>
+                        <div class="nip-field"><strong>NIP:</strong> {{ $kepala->nip }}</div>
+                    </div>
+                </div>
             </div>
         </div>
     @endif
@@ -31,10 +35,14 @@
             <div class="vertical-line"></div>
             <div class="horizontal-line"></div>
             <div class="org-item sekretaris">
-                <img src="{{ asset('storage/'.$sekretaris->photo) }}" alt="{{ $sekretaris->name }}">
-                <span class="jabatan">{{ $sekretaris->position }}</span><br>
-                <strong class="nama">{{ $sekretaris->name }}</strong><br>
-                <div class="nip-field"><strong>NIP:</strong> {{ $sekretaris->nip }}</div>
+                <div class="card-content">
+                    <img src="{{ asset('storage/'.$sekretaris->photo) }}" alt="{{ $sekretaris->name }}">
+                    <div class="info">
+                        <span class="jabatan">{{ $sekretaris->position }}</span><br>
+                        <strong class="nama">{{ $sekretaris->name }}</strong><br>
+                        <div class="nip-field"><strong>NIP:</strong> {{ $sekretaris->nip }}</div>
+                    </div>
+                </div>
             </div>
         </div>
     @endif
@@ -47,10 +55,14 @@
         <div class="org-level horizontal">
             @foreach($kepalaSeksi as $seksi)
                 <div class="org-item">
-                    <img src="{{ asset('storage/'.$seksi->photo) }}" alt="{{ $seksi->name }}">
-                    <span class="jabatan">{{ $seksi->position }}</span><br>
-                    <strong class="nama">{{ $seksi->name }}</strong><br>
-                    <div class="nip-field"><strong>NIP:</strong> {{ $seksi->nip }}</div>
+                    <div class="card-content">
+                        <img src="{{ asset('storage/'.$seksi->photo) }}" alt="{{ $seksi->name }}">
+                        <div class="info">
+                            <span class="jabatan">{{ $seksi->position }}</span><br>
+                            <strong class="nama">{{ $seksi->name }}</strong><br>
+                            <div class="nip-field"><strong>NIP:</strong> {{ $seksi->nip }}</div>
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>
