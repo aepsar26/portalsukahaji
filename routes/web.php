@@ -1,12 +1,11 @@
 <?php
 
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StatisticController;
-use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\Admin\BudgetController;
 use App\Http\Controllers\Admin\ProfilController;
 use App\Http\Controllers\Admin\PemerintahanController;
 use App\Http\Controllers\Admin\LayananController;
@@ -16,6 +15,8 @@ use App\Http\Controllers\Admin\PotensiController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StrukturController;
+use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\Admin\KegiatanController as AdminKegiatanController;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('beranda');
 
@@ -41,7 +42,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('pemerintahans', PemerintahanController::class)->except(['create', 'edit', 'show']);
     
     // Layanan
-   Route::resource('layanans', LayananController::class)->except(['create', 'edit', 'show']);
+    Route::resource('layanans', LayananController::class)->except(['create', 'edit', 'show']);
     
     // Transparansi
     Route::resource('transparansis', TransparansiController::class)->except(['create', 'edit', 'show']);
@@ -53,6 +54,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('potensis', PotensiController::class)->except(['create', 'edit', 'show']);
 
     Route::resource('sliders', SliderController::class)->except(['show', 'edit', 'create']);
+
+    Route::resource('kegiatan', AdminKegiatanController::class);
 });
 
 Route::get('/track-visit', [VisitController::class, 'trackVisit']); 
@@ -63,7 +66,7 @@ Route::get('beranda', [App\Http\Controllers\HomeController::class, 'index'])->na
 Route::get('/profil', [App\Http\Controllers\ProfilController::class, 'index'])->name('profil');
 Route::get('/pemerintahan', [App\Http\Controllers\PemerintahanController::class, 'index'])->name('pemerintahan');
 Route::get('/pelayanan', [App\Http\Controllers\PelayananController::class, 'index'])->name('pelayanan');
-Route::get('/transparansi', [App\Http\Controllers\TransparansiController::class, 'index'])->name('transparansi');
+Route::get('/transparansi', [App\Http\Controllers\BudgetController::class, 'index'])->name('transparansi');
 Route::get('/berita', [App\Http\Controllers\BeritaController::class, 'index'])->name('berita');
 Route::get('/potensi', [App\Http\Controllers\PotensiController::class, 'index'])->name('potensi');
 
@@ -73,6 +76,10 @@ Route::get('/peta-kelurahan', function () {
 })->name('peta');
 
 Route::get('/struktur', [StrukturController::class, 'index'])->name('struktur');
+
+Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
+Route::get('/kegiatan/{slug}', [KegiatanController::class, 'show'])->name('kegiatan.show');
+
 
 Route::get('/persuratan-online', function () {
     return view('pages.persuratan');

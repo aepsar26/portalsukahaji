@@ -16,10 +16,10 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($transparansis as $item)
+                @forelse($budgets as $item)
                     <tr>
-                        <td>{{ $item->jenis }}</td>
-                        <td>Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td>
+                        <td>{{ $item->label }}</td>
+                        <td>Rp {{ number_format($item->amount, 0, ',', '.') }}</td>
                     </tr>
                 @empty
                     <tr>
@@ -31,4 +31,3 @@
     </div>
 </div>
 @endsection
-

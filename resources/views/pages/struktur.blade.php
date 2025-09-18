@@ -18,7 +18,7 @@
                     <img src="{{ asset('storage/'.$kepala->photo) }}" alt="{{ $kepala->name }}">
                     <div class="info">
                         <span class="jabatan">{{ $kepala->position }}</span><br>
-                        <strong class="nama">{{ $kepala->name }}</strong><br>
+                        <u><strong class="nama">{{ $kepala->name }}</strong></u><br>
                         <div class="nip-field"><strong>NIP:</strong> {{ $kepala->nip }}</div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <img src="{{ asset('storage/'.$sekretaris->photo) }}" alt="{{ $sekretaris->name }}">
                     <div class="info">
                         <span class="jabatan">{{ $sekretaris->position }}</span><br>
-                        <strong class="nama">{{ $sekretaris->name }}</strong><br>
+                        <u><strong class="nama">{{ $sekretaris->name }}</strong></u><br>
                         <div class="nip-field"><strong>NIP:</strong> {{ $sekretaris->nip }}</div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                         <img src="{{ asset('storage/'.$seksi->photo) }}" alt="{{ $seksi->name }}">
                         <div class="info">
                             <span class="jabatan">{{ $seksi->position }}</span><br>
-                            <strong class="nama">{{ $seksi->name }}</strong><br>
+                            <u><strong class="nama">{{ $seksi->name }}</strong></u><br>
                             <div class="nip-field"><strong>NIP:</strong> {{ $seksi->nip }}</div>
                         </div>
                     </div>

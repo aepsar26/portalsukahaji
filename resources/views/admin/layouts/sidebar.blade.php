@@ -60,6 +60,15 @@
                 Berita
             </a>
         </div>
+
+        <div class="nav-item">
+            <a href="{{ route('admin.kegiatan.index') }}" 
+               class="nav-link {{ request()->routeIs('admin.kegiatan.*') ? 'active' : '' }}">
+                <i>📅</i>
+                Kegiatan
+            </a>
+        </div>
+
         <div class="nav-item">
             <a href="{{ route('admin.potensis.index') }}" 
                class="nav-link {{ request()->routeIs('admin.potensis.*') ? 'active' : '' }}">

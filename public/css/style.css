@@ -384,12 +384,12 @@
         }
 
         /* Nama pakai underline */
-        .org-item .nama {
+        /* .org-item .nama {
             display: inline-block;
             border-bottom: 1px solid #333; 
             padding-bottom: 2px;
             margin-bottom: 4px;
-        }
+        } */
 
         /* NIP tampil biasa tanpa garis bawah */
         .nip-field {

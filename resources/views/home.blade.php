@@ -32,8 +32,8 @@
                         <div class="card-body">
                             <p class="desc">
                                 Sistem digital yang berfungsi mempermudah pengelolaan data dan informasi terkait dengan kependudukan.
-                            </p>
-                            <br>
+                            </p><br>
+                            
                             <div class="stats-grid">
                                 @foreach($statistics as $stat)
                                     <div class="stat-card">
@@ -43,7 +43,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    </div>
+                    </div><br>
 
                     <!-- Transparansi Anggaran -->
                    <div class="card mt-30">
@@ -67,8 +67,6 @@
                     </div>
                 </div>
                     
-
-
                 <div class="sidebar">
                 <!-- Kepala Kelurahan -->
                     @if(isset($kepala) && $kepala)
@@ -88,7 +86,7 @@
                             </div>
                             <div class="kepala-info">
                                 <div class="jabatan">{{ $kepala->position }}</div> 
-                                <h3 class="nama">{{ $kepala->name }}</h3> 
+                                <u><h3 class="nama">{{ $kepala->name }}</h3></u> 
                                 <br>
                                 <div class="nip-field">
                                     <strong>NIP:</strong> {{ $kepala->nip }}
@@ -127,6 +125,7 @@
                         <p>Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Kelurahan Sukahaji</p>
                     </div>
                 </a>
+
                 <a href="{{ route('potensi') }}" class="service-card" style="text-decoration: none; color: inherit;">
                     <div class="service-icon">
                         <i class="fas fa-seedling"></i>
@@ -147,7 +146,7 @@
                     </div>
                 </div>
 
-                <div class="service-card">
+                <a href="https://umkm.kesug.com" target="_blank" class="service-card" style="text-decoration: none; color: inherit;">
                     <div class="service-icon">
                         <i class="fas fa-store"></i>
                     </div>
@@ -155,9 +154,10 @@
                         <h4>UMKM Kelurahan</h4>
                         <p>Layanan yang disediakan promosi produk UMKM Kelurahan sehingga mampu meningkatkan perekonomian masyarakat</p>
                     </div>
-                </div>
+                </a>
 
-                <div class="service-card">
+                
+                <a href="{{ route('pelayanan') }}" class="service-card" style="text-decoration: none; color: inherit;">
                     <div class="service-icon">
                         <i class="fas fa-tasks"></i>
                     </div>
@@ -169,28 +169,38 @@
                             <li><i class="fas fa-check"></i> Kartu Keluarga (KK)</li>
                             <li><i class="fas fa-check"></i> Akta Kelahiran</li>
                             <li><i class="fas fa-check"></i> Surat Keterangan Domisili</li>
+                            <li><i class="fas fa-check"></i> Surat Keterangan Surat Nikah (NA)</li>
+                            <li><i class="fas fa-check"></i> Surat Keterangan Belum Nikah</li>
                             <li><i class="fas fa-check"></i> Surat Keterangan Tidak Mampu</li>
+                            <li><i class="fas fa-check"></i> Surat Keterangan Ahli Waris</li>
+                            <li><i class="fas fa-check"></i> Surat Keterangan Kematian</li>
+                            <li><i class="fas fa-check"></i> Surat Keterangan Usaha (SKU)</li>
+                            <li><i class="fas fa-check"></i> Surat Pengantar SKCK</li>
+                            <li><i class="fas fa-check"></i> Surat Pindah Keluar</li>
                         </ul>
                     </div>
-                </div>
+                </a>
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-calendar-check"></i>
+
+                <a href="{{ route('kegiatan.index') }}" class="service-card" style="text-decoration: none; color: inherit;">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="service-content">
+                            <h4>Kegiatan Kelurahan</h4>
+                            <p>Menampilkan kegiatan-kegiatan yang berlangsung di Kelurahan Sukahaji</p>
+                            <ul class="service-list">
+                                <li><i class="fas fa-check"></i> Bandung Prakarsa</li>
+                                <li><i class="fas fa-check"></i> Buaruan sae Gema</li>
+                                <li><i class="fas fa-check"></i> Siskamling Aktif</li>
+                                <li><i class="fas fa-check"></i> Bank Sampah</li>
+                                <li><i class="fas fa-check"></i> Pemilahan Sampah</li>
+                                <li><i class="fas fa-check"></i> penanganan pengurangan Sampah</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="service-content">
-                        <h4>Kegiatan Kelurahan</h4>
-                        <p>Menampilkan kegiatan-kegiatan yang berlangsung di Kelurahan Sukahaji</p>
-                        <ul class="service-list">
-                            <li><i class="fas fa-check"></i> Bandung Prakarsa</li>
-                            <li><i class="fas fa-check"></i> Buaruan sae Gema</li>
-                            <li><i class="fas fa-check"></i> Siskamling Aktif</li>
-                            <li><i class="fas fa-check"></i> Bank Sampah</li>
-                            <li><i class="fas fa-check"></i> Pemilahan Sampah</li>
-                            <li><i class="fas fa-check"></i> penanganan pengurangan Sampah</li>
-                        </ul>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
     </main>

@@ -31,7 +31,7 @@ class BeritaController extends Controller
 
         Berita::create([
             'title'   => $request->title,
-            'content' => $request->conten,
+            'content' => $request->input('content'),
             'date'    => $request->date,
             'image'   => $image,
         ]);
@@ -58,7 +58,7 @@ class BeritaController extends Controller
 
         $berita->update([
             'title'   => $request->title,
-            'content' => $request->conten,
+            'content' => $request->input('content'),
             'date'    => $request->date,
             'image'   => $image,
         ]);

@@ -108,6 +108,15 @@ return new class extends Migration
             $table->string('image'); // path foto
             $table->timestamps();
         });
+        Schema::create('kegiatans', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->string('excerpt')->nullable();
+            $table->text('content')->nullable();
+            $table->string('image')->nullable();
+            $table->timestamps();
+        });
 
     }
 
@@ -129,7 +138,7 @@ return new class extends Migration
         Schema::dropIfExists('potensis');
         Schema::dropIfExists('visits');
         Schema::dropIfExists('sliders');
-
+        Schema::dropIfExists('kegiatans');
         
     }
 };
