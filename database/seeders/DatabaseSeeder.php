@@ -2,16 +2,23 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use App\Models\Statistic;
 use App\Models\Budget;
 use App\Models\Berita;
 use App\Models\Layanan;
 use App\Models\Pemerintahan;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
         // Create sample statistics
         Statistic::create([
             'label' => 'Total Penduduk',

@@ -1,7 +1,7 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StatisticController;
@@ -17,51 +17,13 @@ use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StrukturController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\Admin\KegiatanController as AdminKegiatanController;
+use App\Http\Controllers\Admin\ProfileController;
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('beranda');
-
-Route::get('/admin', function () {
-    return redirect()->route('admin.dashboard');
-});
-
-// Admin Routes Group
-Route::prefix('admin')->name('admin.')->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    
-    // Statistics
-    Route::resource('statistics', StatisticController::class);
-    
-    // Budgets
-    Route::resource('budgets', BudgetController::class);
-    
-    // Profils
-    Route::resource('profils', ProfilController::class)->except(['create', 'edit', 'show']);
-    
-    // Pemerintahan
-    Route::resource('pemerintahans', PemerintahanController::class)->except(['create', 'edit', 'show']);
-    
-    // Layanan
-    Route::resource('layanans', LayananController::class)->except(['create', 'edit', 'show']);
-    
-    // Transparansi
-    Route::resource('transparansis', TransparansiController::class)->except(['create', 'edit', 'show']);
-    
-    // Berita
-    Route::resource('beritas', BeritaController::class)->except(['create', 'edit', 'show']);
-    
-    // Potensi
-    Route::resource('potensis', PotensiController::class)->except(['create', 'edit', 'show']);
-
-    Route::resource('sliders', SliderController::class)->except(['show', 'edit', 'create']);
-
-    Route::resource('kegiatan', AdminKegiatanController::class);
-});
-
-Route::get('/track-visit', [VisitController::class, 'trackVisit']); 
-Route::get('/admin/visits', [VisitController::class, 'showTodayVisit'])->name('admin.visits');
-
-Route::get('beranda', [App\Http\Controllers\HomeController::class, 'index'])->name('beranda');
+// ===================
+// 🌍 Public Routes
+// ===================
+Route::get('/', [HomeController::class, 'index'])->name('beranda');
+Route::get('/beranda', [HomeController::class, 'index'])->name('beranda');
 
 Route::get('/profil', [App\Http\Controllers\ProfilController::class, 'index'])->name('profil');
 Route::get('/pemerintahan', [App\Http\Controllers\PemerintahanController::class, 'index'])->name('pemerintahan');
@@ -70,29 +32,59 @@ Route::get('/transparansi', [App\Http\Controllers\BudgetController::class, 'inde
 Route::get('/berita', [App\Http\Controllers\BeritaController::class, 'index'])->name('berita');
 Route::get('/potensi', [App\Http\Controllers\PotensiController::class, 'index'])->name('potensi');
 
-
-Route::get('/peta-kelurahan', function () {
-    return view('pages.peta');
-})->name('peta');
-
+Route::get('/peta-kelurahan', fn() => view('pages.peta'))->name('peta');
 Route::get('/struktur', [StrukturController::class, 'index'])->name('struktur');
 
 Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
 Route::get('/kegiatan/{slug}', [KegiatanController::class, 'show'])->name('kegiatan.show');
 
+Route::get('/persuratan-online', fn() => view('pages.persuratan'))->name('persuratan');
+Route::get('/agenda-kegiatan', fn() => view('pages.agenda'))->name('agenda');
+Route::get('/pengaduan-online', fn() => view('pages.pengaduan'))->name('pengaduan');
+Route::get('/download-formulir', fn() => view('pages.formulir'))->name('formulir');
 
-Route::get('/persuratan-online', function () {
-    return view('pages.persuratan');
-})->name('persuratan');
+// Track Visit
+Route::get('/track-visit', [VisitController::class, 'trackVisit']);
+Route::get('/admin/visits', [VisitController::class, 'showTodayVisit'])->name('admin.visits');
 
-Route::get('/agenda-kegiatan', function () {
-    return view('pages.agenda');
-})->name('agenda');
+// ===================
+// 🔑 Authentication Routes (tanpa middleware)
+// ===================
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Kalau akses /admin langsung → arahkan ke login
+    Route::get('/login', function () {
+    return redirect()->route('admin.login');
+    })->name('login');
 
-Route::get('/pengaduan-online', function () {
-    return view('pages.pengaduan');
-})->name('pengaduan');
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
 
-Route::get('/download-formulir', function () {
-    return view('pages.formulir');
-})->name('formulir');
+// ===================
+// 🛠️ Admin Routes (Protected by auth middleware)
+// ===================
+// Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+//     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+//     Route::post('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
+// });
+
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    // ... route lain
+    Route::resource('statistics', StatisticController::class);
+    Route::resource('budgets', BudgetController::class);
+    Route::resource('profils', ProfilController::class)->except(['create', 'edit', 'show']);
+    Route::resource('pemerintahans', PemerintahanController::class)->except(['create', 'edit', 'show']);
+    Route::resource('layanans', LayananController::class)->except(['create', 'edit', 'show']);
+    Route::resource('transparansis', TransparansiController::class)->except(['create', 'edit', 'show']);
+    Route::resource('beritas', BeritaController::class)->except(['create', 'edit', 'show']);
+    Route::resource('potensis', PotensiController::class)->except(['create', 'edit', 'show']);
+    Route::resource('sliders', SliderController::class)->except(['show', 'edit', 'create']);
+    Route::resource('kegiatan', AdminKegiatanController::class);
+
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
